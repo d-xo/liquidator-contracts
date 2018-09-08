@@ -6,11 +6,11 @@ address=$1
 amount=$2
 
 function message() {
-    echo 
-    echo --------------------------------
-    echo "$@"
-    echo --------------------------------
-    echo 
+    echo >&2 
+    echo >&2 --------------------------------
+    echo >&2 "$@"
+    echo >&2 --------------------------------
+    echo >&2
 }
 
 message OPENING CDP
@@ -24,3 +24,5 @@ dai --cup=${id} give ${address}
 
 message STATUS
 dai --cup=${id} cup
+
+echo $id
