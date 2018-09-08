@@ -96,7 +96,7 @@ contract Liquidator is DSMath {
         // refund dai
         require(dai.transfer(msg.sender, funded));
         // reward eth
-        msg.sender.transfer(payout);
+        require(tub.skr().transfer(msg.sender, payout));
 
         emit Paid(msg.sender, payout);
     }
