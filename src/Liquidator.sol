@@ -17,8 +17,6 @@ contract Liquidator is DSMath {
     // five percent
     uint cut = mul(5, rpow(10, 25));
 
-    // the fee, in eth, paid to this contract
-    uint fee;
     // the amount raised, in dai
     uint raised;
     // dai balances
