@@ -13,6 +13,8 @@ contract Liquidator is DSMath {
 
     constructor(SaiTub _tub) public {
         tub = _tub;
+        tub.gem().approve(address(tub), uint256(-1));
+        tub.skr().approve(address(tub), uint256(-1));
     }
 
     event Owner();
