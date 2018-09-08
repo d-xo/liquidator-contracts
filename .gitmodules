@@ -4,6 +4,3 @@
 [submodule "lib/sai"]
 	path = lib/sai
 	url = https://github.com/makerdao/sai
-[submodule "lib/ds-math"]
-	path = lib/ds-math
-	url = https://github.com/dapphub/ds-math
