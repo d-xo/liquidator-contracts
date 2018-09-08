@@ -9,7 +9,7 @@ contract Liquidator is DSMath {
     SaiTub tub;
 
     // five percent
-    uint cut = 5 * 10 ** 16;
+    uint cut = mul(5, rpow(10, 16));
 
     constructor(SaiTub _tub) public {
         tub = _tub;
