@@ -17,7 +17,7 @@ contract Liquidator is DSMath {
 
     event Owner();
     event RetrievedData(uint collateral, uint debt, uint price);
-    event Calucated(uint totalValue, uint fee, uint surplus);
+    event Calculated(uint totalValue, uint fee, uint surplus);
     event Shut();
     event Transfered();
 
@@ -35,7 +35,7 @@ contract Liquidator is DSMath {
         uint totalValue = wmul(collateral, price);
         uint fee = wmul(totalValue, cut);
         uint surplus = sub(sub(totalValue, fee), debt);
-        emit Calucated(totalValue, fee, surplus);
+        emit Calculated(totalValue, fee, surplus);
 
         // close the cdp
         tub.shut(_cup);
