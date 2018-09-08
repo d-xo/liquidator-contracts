@@ -38,11 +38,16 @@ contract Liquidator is DSMath {
         emit Calucated(totalValue, fee, surplus);
 
         // close the cdp
+        // shut calls wipe + free
+        // wipe deletes all debt
+        // free sends all remaining PETH to the caller
         tub.shut(_cup);
         emit Shut();
 
-        // transfer the surplus
-        tub.skr().transfer(msg.sender, surplus);
-        emit Transfered();
+        // convert PETH to WETH
+        tub.exit(tub.skr().balanceOf(address(this)));
+
+        // transfer the surplus, by keeping the PETH/WET ratio into account
+        tub.gem().transfer(msg.sender, tub.bid(surplus));
     }
 }
