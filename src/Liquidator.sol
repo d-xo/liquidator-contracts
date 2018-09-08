@@ -16,9 +16,6 @@ contract Liquidator is DSMath {
     }
 
     function close(bytes32 _cup) public {
-        // reject underwater cdps
-        assert(tub.safe(_cup));
-
         // can only operate on cdps that it controls
         assert(tub.lad(_cup) == address(this));
 
