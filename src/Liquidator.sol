@@ -92,7 +92,8 @@ contract Liquidator is DSMath {
         uint percentage = wdiv(funded, raised);
 
         // percentage of the fee the caller gets
-        uint payout = wmul(percentage, fee);
+        uint feeInPeth = rdiv(fee, price);
+        uint payout = wmul(percentage, feeInPeth);
 
         // refund dai
         require(dai.transfer(msg.sender, funded));
