@@ -56,7 +56,7 @@ contract Liquidator is DSMath {
         totalValue = rmul(collateral, price);
         fee = rmul(totalValue, cut);
         surplus = sub(sub(totalValue, fee), debt);
-        emit Calucated(totalValue, fee, surplus);
+        emit Calculated(totalValue, fee, surplus);
 
         // close the cdp
         tub.shut(_cup);
