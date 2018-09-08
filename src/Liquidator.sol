@@ -68,7 +68,7 @@ contract Liquidator is DSMath {
         balances[msg.sender] += amount;
         raised += amount;
 
-        emit Funded(msg.sender, msg.value, balances[msg.sender]);
+        emit Funded(msg.sender, amount, balances[msg.sender]);
     }
 
     // Get all the DAI out
