@@ -6,10 +6,10 @@ import "ds-value/value.sol";
 
 contract Liquidator is DSMath {
 
-    // sai-wad 0.05
-    uint fivePercentWad = 0x00000000000000000000000000000000000000000000000000b1a2bc2ec50000;
-
     SaiTub tub;
+
+    // five percent
+    uint cut = 5 * 10 ** 16;
 
     constructor(SaiTub _tub) public {
         tub = _tub;
@@ -28,7 +28,7 @@ contract Liquidator is DSMath {
         uint price = tub.tag();
 
         uint totalValue = wmul(collateral, price);
-        uint fee = wmul(totalValue, fivePercentWad);
+        uint fee = wmul(totalValue, cut);
 
         uint surplus = sub(sub(totalValue, fee), debt);
 
