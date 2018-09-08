@@ -7,9 +7,15 @@ import "ds-value/value.sol";
 contract Liquidator is DSMath {
 
     SaiTub tub;
+    uint256 public collateral;
+    uint256 public debt;
+    uint256 public price;
+    uint256 public totalValue;
+    uint256 public fee;
+    uint256 public surplus;
 
     // five percent
-    uint cut = mul(5, rpow(10, 16));
+    uint cut = mul(5, rpow(10, 25));
 
     // the fee, in eth, paid to this contract
     uint fee;
@@ -22,6 +28,8 @@ contract Liquidator is DSMath {
 
     constructor(SaiTub _tub) public {
         tub = _tub;
+        tub.gem().approve(address(tub), uint256(-1));
+        tub.skr().approve(address(tub), uint256(-1));
     }
 
     event Owner();
@@ -39,22 +47,23 @@ contract Liquidator is DSMath {
         emit Owner();
 
         // calcuate surplus collateral
-        uint collateral = tub.ink(_cup);
-        uint debt = tub.tab(_cup);
-        uint price = tub.tag();
+        collateral = tub.ink(_cup);
+        debt = tub.tab(_cup);
+        price = tub.tag();
         emit RetrievedData(collateral, debt, price);
 
-        uint totalValue = wmul(collateral, price);
-        fee = wmul(totalValue, cut);
-        uint surplus = sub(sub(totalValue, fee), debt);
-        emit Calculated(totalValue, fee, surplus);
+        // dollars :)
+        totalValue = rmul(collateral, price);
+        fee = rmul(totalValue, cut);
+        surplus = sub(sub(totalValue, fee), debt);
+        emit Calucated(totalValue, fee, surplus);
 
         // close the cdp
         tub.shut(_cup);
         emit Shut();
 
         // transfer the surplus
-        tub.skr().transfer(msg.sender, surplus);
+        tub.skr().transfer(msg.sender, rdiv(surplus, price));
         emit Transfered();
     }
 
